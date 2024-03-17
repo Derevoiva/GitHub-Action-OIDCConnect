@@ -1,25 +1,24 @@
-name: 'test AWS Access'
+name: 'Тест Доступа AWS'
 
-# The workflow should only trigger on pull requests to the main branch
+# Workflow должен срабатывать только на push в основную ветку
 on:
   push
 
 jobs:
   aws:
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-latest # Запуск на последней версии Ubuntu
     permissions:
-      id-token: write
-      contents: read # needed for private repos to checkout
+      id-token: write # разрешение на запись токена идентификации
+      contents: read # необходимо для получения содержимого из приватных репозиториев
     steps:
-      - name: Checkout
-        uses: actions/checkout@v3
+      - name: Checkout # Получение кода из репозитория
+        uses: actions/checkout@v3 # Использование действия checkout версии 3
 
-      - name: Configure AWS Credentials
-        uses: aws-actions/configure-aws-credentials@v1
+      - name: Настройка Учетных Данных AWS
+        uses: aws-actions/configure-aws-credentials@v1 # Использование действия для настройки учетных данных AWS версии 1
         with:
-          aws-region: us-east-1
-          role-to-assume: arn:aws:iam::027417463143:role/sts-lab-2-target
-          role-session-name: OIDCSession
+          aws-region: us-east-1 # Указание региона AWS
+          role-to-assume: arn:aws:iam::027417463143:role/sts-lab-2-target # ARN роли, которую необходимо предположить
+          role-session-name: OIDCSession # Имя сессии для OIDC
 
-      - run: aws sts get-caller-identity
-        shell: bash
+      - run: aws sts # Выполнить команду AWS STS
