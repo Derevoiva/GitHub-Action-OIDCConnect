@@ -1,20 +1,20 @@
-{ 
-  "Version": "2012-10-17", 
+{
+  "Version": "2012-10-17",
   "Statement": [
-      { 
-        "Effect": "Allow",
-          "Action": [ 
-              "sts:TagSession", 
-              "sts:AssumeRoleWithWebIdentity" ], 
-          "Principal": { 
-              "Federated": "arn:aws:iam::027417463143:oidc-provider/token.actions.githubusercontent.com" 
-          }, 
-          "Condition": { 
-              "StringEquals": { 
-                  "token.actions.githubusercontent.com:aud": "sts.amazonaws.com" },
-              "StringLike": { "token.actions.githubusercontent.com:sub": "repo:*/hacktricks-training*" 
-              } 
-          } 
-      } 
-  ] 
+    {
+      "Effect": "Allow",
+      "Principal": {
+        "Federated": "arn:aws:iam::027417463143:oidc-provider/token.actions.githubusercontent.com"
+      },
+      "Action": "sts:AssumeRoleWithWebIdentity",
+      "Condition": {
+        "StringEquals": {
+          "token.actions.githubusercontent.com:sub": [
+            "repo:*/hacktricks-training*",
+            ],
+          "token.actions.githubusercontent.com:aud": "sts.amazonaws.com"
+        }
+      }
+    }
+  ]
 }
