@@ -4,21 +4,23 @@ name: 'Тест Доступа AWS'
 on:
   push
 
+permissions:
+  id-token: write
+  contents: read
 jobs:
   aws:
     runs-on: ubuntu-latest # Запуск на последней версии Ubuntu
-    permissions:
-      id-token: write # разрешение на запись токена идентификации
-      contents: read # необходимо для получения содержимого из приватных репозиториев
+   
     steps:
       - name: Checkout # Получение кода из репозитория
         uses: actions/checkout@v3 # Использование действия checkout версии 3
 
-      - name: Настройка Учетных Данных AWS
+      - name: Configure AWS Credentials 
         uses: aws-actions/configure-aws-credentials@v1 # Использование действия для настройки учетных данных AWS версии 1
         with:
           aws-region: us-east-1 # Указание региона AWS
           role-to-assume: arn:aws:iam::027417463143:role/sts-lab-2-target # ARN роли, которую необходимо предположить
           role-session-name: OIDCSession # Имя сессии для OIDC
 
-      - run: aws sts # Выполнить команду AWS STS
+      - run: aws sts get-caller-identity # Выполнить команду AWS STS
+        shell: bash
